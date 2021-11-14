@@ -10,6 +10,20 @@ window.addEventListener("load", function () {
         scaleToFit:true
     });
 
+    /**
+     * Create 'class'
+     */
+    Q.Sprite.extend("Zombie", {
+        /**
+         * Method constructor
+         */
+        init: function(p) {
+            this._super(p, {
+                asset:"zombie1.png"
+            });
+        }
+    });
+
     Q.scene("level", function (stage) {
         
         /**
@@ -21,7 +35,31 @@ window.addEventListener("load", function () {
             asset:"background.png"
         });
 
+        /**
+         * Character
+         */
+        var sprite2 = new Q.Zombie({
+            x: 500,
+            y: 600
+        });
+        
+        var sprite3 = new Q.Zombie({
+            x: 700,
+            y: 100
+        });
+
+        var sprite4 = new Q.Zombie({
+            x: 700,
+            y: 600
+        });
+
+        /**
+         * Insert Sprite
+         */
         stage.inser(sprite1);
+        stage.inser(sprite2);
+        stage.inser(sprite3);
+        stage.inser(sprite4);
     });
 
     /**
