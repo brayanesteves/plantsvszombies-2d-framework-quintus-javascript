@@ -4,7 +4,7 @@ window.addEventListener("load", function () {
      * 0) 'Sprite' = Show image
      * 1) 'Scenes' = Show screen
      */
-    var Q = window.Q = Quintus({ development: true }).include('Sprites, Scenes, 2D, UI, ZombiesGUI, ZombiesEnemies, ZombiesGameplay').setup({
+    var Q = window.Q = Quintus({ development: true }).include('Sprites, Scenes, 2D, UI, Touch, ZombiesGUI, ZombiesEnemies, ZombiesGameplay').setup({
              width:1080,
             height:720,
         scaleToFit:true
@@ -41,6 +41,7 @@ window.addEventListener("load", function () {
         /**
          * Character
          */
+        var sprite1 = new Q.Zombie(Q._extend({ x: 500, y: 600 }, Q.zombieTypes['basic']));     
         var sprite2 = new Q.Zombie(Q._extend({ x: 500, y: 600 }, Q.zombieTypes['chicken']));        
         var sprite3 = new Q.Zombie(Q._extend({ x: 700, y: 100 }, Q.zombieTypes['basic']));
         var sprite4 = new Q.Zombie(Q._extend({ x: 500, y: 600 }, Q.zombieTypes['hatzombie']));        
@@ -56,6 +57,9 @@ window.addEventListener("load", function () {
         stage.insert(sprite3);
         stage.insert(sprite4);
 
+        var plant1 = new Q.Plant(Q._extend({ x: 600, y: 600 }, Q.plantTypes['carnivorous']));     
+        var plant2 = new Q.Plant(Q._extend({ x: 600, y: 100 }, Q.plantTypes['chilli']));   
+
         var sidePanel = new Q.SidePanel();
         stage.insert(sidePanel);
     });
@@ -63,7 +67,7 @@ window.addEventListener("load", function () {
     /**
      * Load data
      */
-    Q.load("background.png, sun.png, zombie1.png, zombie2.png, zombie3.png, chicken.png", function() {
+    Q.load("background.png, sun.png, zombie1.png, zombie2.png, zombie3.png, chicken.png, carnivorousplant.png, corn.png, chilli.png, subflower.png", function() {
         Q.state.reset({sun:120});
         /**
          * Show image scenes

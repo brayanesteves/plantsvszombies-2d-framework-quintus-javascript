@@ -5,20 +5,24 @@ Quintus.ZombiesEnemies = function (Q) {
      */
     Q.zombieTypes = {
         basic: {
-            asset:'zombie1.png', // Image file
-            vx:-8 // Speed
+             asset:'zombie1.png', // Image file
+                vx:-8, // Speed
+            damage:1,
         },
         skelleton: {
-            asset:'zombie2.png', // Image file
-            vx:-10 // Speed
+             asset:'zombie2.png', // Image file
+                vx:-10, // Speed
+            damage:1,
         },
         chicken: {
-            asset:'chicken.png', // Image file
-            vx:-20 // Speed
+             asset:'chicken.png', // Image file
+                vx:-20, // Speed
+            damage:0.5,
         },
         hatzombie: {
-            asset:'zombie3.png', // Image file
-            vx:-9 // Speed
+             asset:'zombie3.png', // Image file
+                vx:-9, // Speed
+            damage:1,
         }
     }
     /**
@@ -36,10 +40,17 @@ Quintus.ZombiesEnemies = function (Q) {
                  */
                 collisionMask: Q.SPRITE_BULLET | Q.SPRITE_PLANT,
             });
+            this.p.originalVx = this.p.vx;
             /**
              * Add component
              */
             this.add("2s");
+            this.on("bump.left", function(collision) {
+                if(collision.obj.isA("Plant")) {
+                    collision.obj.takeDamage(this.p.damage);
+                }
+                this.p.vx = this.p.originalVx;
+            });
         },
         /**
          * Function
