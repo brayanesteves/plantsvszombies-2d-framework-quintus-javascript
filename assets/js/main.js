@@ -4,7 +4,7 @@ window.addEventListener("load", function () {
      * 0) 'Sprite' = Show image
      * 1) 'Scenes' = Show screen
      */
-    var Q = window.Q = Quintus({ development: true }).include('Sprites, Scenes, 2D, UI').setup({
+    var Q = window.Q = Quintus({ development: true }).include('Sprites, Scenes, 2D, UI, ZombiesGUI, ZombiesEnemies').setup({
              width:1080,
             height:720,
         scaleToFit:true
@@ -25,97 +25,6 @@ window.addEventListener("load", function () {
     Q.SPRITE_BULLET = 16;
     Q.SPRITE_GROUND = 2;
 
-    /**
-     * Create 'class'
-     */
-    Q.Sprite.extend("Zombie", {
-        /**
-         * Method constructor
-         */
-        init: function(p) {
-            this._super(p, {
-                asset:"zombie1.png",
-                 type:Q.SPRITE_ZOMBIE,
-                /**
-                 * Collision
-                 */
-                collisionMask: Q.SPRITE_BULLET | Q.SPRITE_PLANT,
-                  vx: -30
-            });
-            /**
-             * Add component
-             */
-            this.add("2s");
-        },
-        /**
-         * Function
-         * 0) dt = Delta Time, last time execute 'step'
-         */
-        step: function(dt) {
-            if (this.p.x <= 240) {
-                this.destroy();
-                console.log("The zombies eat you brain!");
-                /**
-                 * Restart game
-                 */
-                Q.stageScene("level");
-            }
-        }
-    });
-
-    /**
-     * User interface
-     * Container
-     */
-    Q.UI.Container.extend("SidePanel", {
-        /**
-         * Method constructor
-         */
-        init: function() {
-            this._super({
-                  fill: '#E1DEB7',
-                     x:120/2,
-                     y:720/2,
-                radius:0,
-                border:0,
-                shadow:0,
-                     w:120,
-                     h:720,
-            });
-            /**
-             * inserted: function() {
-             *   var sun = new Q.Sprite({
-             *       asset: 'sun.png',
-             *       x: 60,
-             *       y: 40
-             *   });
-             *   this.stage.insert(sun);
-             * }
-             */
-            this.on("inserted");
-        },
-        inserted: function() {
-            var sun = new Q.Sprite({
-                asset: 'sun.png',
-                x: 60,
-                y: 40
-            });
-            /**
-             * Image
-             */
-            this.stage.insert(sun);
-            /**
-             * Text
-             */
-            this.totalSun = new Q.UI.Text({
-                    x: 60,
-                    y: 100,
-                label:"100"
-            });
-            this.stage.insert(this.totalSun);
-        }
-    });
-
     Q.scene("level", function (stage) {
         
         /**
@@ -131,22 +40,11 @@ window.addEventListener("load", function () {
         /**
          * Character
          */
-        var sprite2 = new Q.Zombie({
-            x: 500,
-            y: 600
-        });
-        
-        var sprite3 = new Q.Zombie({
-            x: 700,
-            y: 100
-        });
+        var sprite2 = new Q.Zombie(Q._extend({ x: 500, y: 600 }, Q.zombieTypes['chicken']));        
+        var sprite3 = new Q.Zombie(Q._extend({ x: 700, y: 100 }, Q.zombieTypes['basic']));
+        var sprite4 = new Q.Zombie(Q._extend({ x: 500, y: 600 }, Q.zombieTypes['hatzombie']));        
 
-        var sprite4 = new Q.Zombie({
-            x: 700,
-            y: 600
-        });
-
-        console.log(sprite4.p);
+        //console.log(sprite4.p);
 
         /**
          * Insert Sprite
@@ -163,7 +61,7 @@ window.addEventListener("load", function () {
     /**
      * Load data
      */
-    Q.load("background.png, sun.png, zombie1.png", function() {
+    Q.load("background.png, sun.png, zombie1.png, zombie2.png, zombie3.png, chicken.png", function() {
         /**
          * Show image scenes
          */
