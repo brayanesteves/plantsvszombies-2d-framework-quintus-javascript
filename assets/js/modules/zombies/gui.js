@@ -29,6 +29,10 @@ Quintus.ZombiesGUI = function (Q) {
              * }
              */
             this.on("inserted");
+            var panel = this;
+            Q.state.on("change.sun", function() {
+                panel.refreshStats();
+            });
         },
         inserted: function() {
             var sun = new Q.Sprite({
@@ -46,9 +50,13 @@ Quintus.ZombiesGUI = function (Q) {
             this.totalSun = new Q.UI.Text({
                     x: 60,
                     y: 100,
-                label:"100"
+                label:" "
             });
             this.stage.insert(this.totalSun);
+            this.refreshStats();
+        },
+        refreshStats: function () {
+            this.totalSun.p.label = Q.state.get("sun") + "";
         }
     });  
 };

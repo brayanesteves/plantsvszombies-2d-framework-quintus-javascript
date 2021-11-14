@@ -21,6 +21,7 @@ Quintus.ZombiesPlants = function(Q) {
         touch: function(touch) {
             console.log(touch);
             console.log("Touching sun");
+            Q.state.inc("sun", 25);
             this.destroy();
         }
     });

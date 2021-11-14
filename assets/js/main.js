@@ -85,6 +85,7 @@ window.addEventListener("load", function () {
      * Load data
      */
     Q.load("background.png, sun.png, zombie1.png, zombie2.png, zombie3.png, chicken.png", function() {
+        Q.state.reset({sun:120});
         /**
          * Show image scenes
          */
