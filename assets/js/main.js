@@ -4,7 +4,7 @@ window.addEventListener("load", function () {
      * 0) 'Sprite' = Show image
      * 1) 'Scenes' = Show screen
      */
-    var Q = window.Q = Quintus({ development: true }).include('Sprites', 'Scenes', '2D').setup({
+    var Q = window.Q = Quintus({ development: true }).include('Sprites, Scenes, 2D, UI').setup({
              width:1080,
             height:720,
         scaleToFit:true
@@ -63,16 +63,69 @@ window.addEventListener("load", function () {
         }
     });
 
+    /**
+     * User interface
+     * Container
+     */
+    Q.UI.Container.extend("SidePanel", {
+        /**
+         * Method constructor
+         */
+        init: function() {
+            this._super({
+                  fill: '#E1DEB7',
+                     x:120/2,
+                     y:720/2,
+                radius:0,
+                border:0,
+                shadow:0,
+                     w:120,
+                     h:720,
+            });
+            /**
+             * inserted: function() {
+             *   var sun = new Q.Sprite({
+             *       asset: 'sun.png',
+             *       x: 60,
+             *       y: 40
+             *   });
+             *   this.stage.insert(sun);
+             * }
+             */
+            this.on("inserted");
+        },
+        inserted: function() {
+            var sun = new Q.Sprite({
+                asset: 'sun.png',
+                x: 60,
+                y: 40
+            });
+            /**
+             * Image
+             */
+            this.stage.insert(sun);
+            /**
+             * Text
+             */
+            this.totalSun = new Q.UI.Text({
+                    x: 60,
+                    y: 100,
+                label:"100"
+            });
+            this.stage.insert(this.totalSun);
+        }
+    });
+
     Q.scene("level", function (stage) {
         
         /**
          * Scene
          */
         var sprite1 = new Q.Sprite({
-            x: 1080/2,
-            y: 720/2,
+                x: 120 + 960/2,
+                y: 720/2,
             asset:"background.png",
-            type:Q.SPRITE_GROUND
+             type:Q.SPRITE_GROUND
         });
 
         /**
@@ -102,6 +155,9 @@ window.addEventListener("load", function () {
         stage.insert(sprite2);
         stage.insert(sprite3);
         stage.insert(sprite4);
+
+        var sidePanel = new Q.SidePanel();
+        stage.insert(sidePanel);
     });
 
     /**
