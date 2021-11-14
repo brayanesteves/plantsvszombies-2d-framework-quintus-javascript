@@ -49,6 +49,13 @@ Quintus.ZombiesEnemies = function (Q) {
                 if(collision.obj.isA("Plant")) {
                     collision.obj.takeDamage(this.p.damage);
                 }
+                /**
+                 * Bullet collisio to zombie damage
+                 */
+                else if(collision.obj.isA("Bullet")) {
+                    this.p.energy -= collision.obj.p.damage;
+                    collision.obj.destroy();
+                }
                 this.p.vx = this.p.originalVx;
             });
         },
@@ -64,6 +71,9 @@ Quintus.ZombiesEnemies = function (Q) {
                  * Restart game
                  */
                 Q.stageScene("level");
+            }
+            if(this.p.energy <= 0) {
+                this.destroy();
             }
         }
     });

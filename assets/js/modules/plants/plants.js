@@ -48,24 +48,36 @@ Quintus.ZombiesPlants = function(Q) {
      */
     Q.plantTypes = {
         carnivorous: {
-             asset:'carnivorousplant.png',
-              cost:100,
-            energy:10
+                        asset:'carnivorousplant.png',
+                         cost:100,
+                       energy:10, 
+                    isShooter: true,
+            shootingFrequency:3,
+                       damage:2,
         },
         corn: {
-            asset:'corn.png',
-             cost:150,
-           energy:10
+                     asset:'corn.png',
+                      cost:150,
+                    energy:10, 
+                 isShooter: true,
+         shootingFrequency:3,
+                    damage:3,
         },
         chilli: {
-            asset:'chilli.png',
-             cost:50,
-           energy:10
+                        asset:'chilli.png',
+                         cost:50,
+                       energy:10, 
+                    isShooter: true,
+            shootingFrequency:3,
+                       damage:10,
         },
         sunflower: {
-            asset:'subflower.png',
-             cost: 75,
-           energy:15
+                    asset:'subflower.png',
+                     cost: 75,
+                   energy:15, 
+                isShooter: true,
+        shootingFrequency:3,
+                   damage:15,
        },
     };
 
@@ -87,6 +99,48 @@ Quintus.ZombiesPlants = function(Q) {
         takeDamage: function(damage) {
             this.p.energy -= damage / 50;
             //console.log(this.p.damage);
+        }
+    });
+
+    Q.Sprite.extend({
+        init: function(p) {
+            this._super(p, {
+                 type:Q.SPRITE_BULLET,
+                asset:'bullet.png',
+                   vx:300
+            });
+            this.add("2d");
+            /**
+             * Init timer for shooters
+             */
+            if(this.p.isShooter) {
+                this.p.timeToShoot = this.p.shootingFrequency
+            }
+        },
+        step: function(dt) {
+            /**
+             * Shooters plants
+             */
+            if(this.p.isShooter) {
+                this.p.timeToShoot -= dt;
+                if(this.p.timeToShoot <= 0) {
+                    this.p.timeToShoot = this.p.shootingFrequency;
+                    /**
+                     * Create new bullet
+                     */
+                    this.stage.insert(new Q.Bullet({
+                             x: this.p.x,
+                             y: this.p.y,
+                        damage:this.p.damage
+                    }));
+                }
+            }
+            /**
+             * Destroy if out of range
+             */
+            if(this.p.x >= 1110) {
+                this.destroy();
+            }
         }
     });
 };
