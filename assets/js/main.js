@@ -25,6 +25,11 @@ window.addEventListener("load", function () {
     Q.SPRITE_BULLET = 16;
     Q.SPRITE_GROUND = 2;
 
+    /**
+     * Enable touch
+     */
+    Q.touch(Q.SPRITE_SUN);
+
     Q.scene("level", function (stage) {
         
         /**
@@ -36,6 +41,15 @@ window.addEventListener("load", function () {
             asset:"background.png",
              type:Q.SPRITE_GROUND
         });
+
+        /**
+         * Item
+         */
+        var sun1 = Q.Sun();
+        var sun2 = Q.Sun();
+        var sun3 = Q.Sun();
+        var sun4 = Q.Sun();
+        var sun5 = Q.Sun();
 
         /**
          * Character
@@ -53,6 +67,15 @@ window.addEventListener("load", function () {
         stage.insert(sprite2);
         stage.insert(sprite3);
         stage.insert(sprite4);
+
+        /**
+         * Items
+         */
+        stage.insert(sun1);
+        stage.insert(sun2);
+        stage.insert(sun3);
+        stage.insert(sun4);
+        stage.insert(sun5);
 
         var sidePanel = new Q.SidePanel();
         stage.insert(sidePanel);
