@@ -67,17 +67,14 @@ Quintus.ZombiesPlants = function(Q) {
                         asset:'chilli.png',
                          cost:50,
                        energy:10, 
-                    isShooter: true,
-            shootingFrequency:3,
-                       damage:10,
+                  isExploding: true,
+                       damage:50,
         },
         sunflower: {
                     asset:'subflower.png',
                      cost: 75,
                    energy:15, 
-                isShooter: true,
-        shootingFrequency:3,
-                   damage:15,
+                isShooter: true,        
        },
     };
 

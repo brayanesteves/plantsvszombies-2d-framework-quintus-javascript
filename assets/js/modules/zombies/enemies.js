@@ -46,8 +46,13 @@ Quintus.ZombiesEnemies = function (Q) {
              */
             this.add("2s");
             this.on("bump.left", function(collision) {
-                if(collision.obj.isA("Plant")) {
-                    collision.obj.takeDamage(this.p.damage);
+                if (collision.obj.isA("Plant")) {
+                    if(collision.obj.p.isExploding) {
+                        this.p.energy -= collision.obj.p.damage;
+                        collision.obj.destroy();
+                    } else {                        
+                        collision.obj.takeDamage(this.p.damage);
+                    }
                 }
                 /**
                  * Bullet collisio to zombie damage
