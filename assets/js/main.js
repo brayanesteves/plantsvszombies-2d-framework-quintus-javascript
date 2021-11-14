@@ -4,7 +4,7 @@ window.addEventListener("load", function () {
      * 0) 'Sprite' = Show image
      * 1) 'Scenes' = Show screen
      */
-    var Q = window.Q = Quintus({ development: true }).include('Sprites, Scenes, 2D, UI, ZombiesGUI, ZombiesEnemies').setup({
+    var Q = window.Q = Quintus({ development: true }).include('Sprites, Scenes, 2D, UI, ZombiesGUI, ZombiesEnemies, ZombiesGameplay').setup({
              width:1080,
             height:720,
         scaleToFit:true
@@ -23,33 +23,20 @@ window.addEventListener("load", function () {
     Q.SPRITE_ZOMBIE = 4;
     Q.SPRITE_PLANT  = 8;
     Q.SPRITE_BULLET = 16;
-    Q.SPRITE_GROUND = 2;
+    Q.SPRITE_GROUND = 32;
+    Q.SPRITE_UI     = 64;
 
     /**
      * Enable touch
      */
-    Q.touch(Q.SPRITE_SUN);
+    Q.touch(Q.SPRITE_SUN | Q.SPRITE_GROUND | Q.SPRITE_UI);
 
     Q.scene("level", function (stage) {
         
         /**
          * Scene
          */
-        var sprite1 = new Q.Sprite({
-                x: 120 + 960/2,
-                y: 720/2,
-            asset:"background.png",
-             type:Q.SPRITE_GROUND
-        });
-
-        /**
-         * Item
-         */
-        var sun1 = Q.Sun();
-        var sun2 = Q.Sun();
-        var sun3 = Q.Sun();
-        var sun4 = Q.Sun();
-        var sun5 = Q.Sun();
+        var level = new Q.Level();        
 
         /**
          * Character
@@ -60,6 +47,7 @@ window.addEventListener("load", function () {
 
         //console.log(sprite4.p);
 
+        stage.insert(level);
         /**
          * Insert Sprite
          */
@@ -67,15 +55,6 @@ window.addEventListener("load", function () {
         stage.insert(sprite2);
         stage.insert(sprite3);
         stage.insert(sprite4);
-
-        /**
-         * Items
-         */
-        stage.insert(sun1);
-        stage.insert(sun2);
-        stage.insert(sun3);
-        stage.insert(sun4);
-        stage.insert(sun5);
 
         var sidePanel = new Q.SidePanel();
         stage.insert(sidePanel);
@@ -89,6 +68,27 @@ window.addEventListener("load", function () {
         /**
          * Show image scenes
          */
-        Q.stageScene("level");
+        Q.stageScene("level", 2);
+        Q.stageScene(  "sun", 1);
+        
+        /**
+         * Item
+         */
+        var sun1 = Q.Sun();
+        var sun2 = Q.Sun();
+        var sun3 = Q.Sun();
+        var sun4 = Q.Sun();
+        var sun5 = Q.Sun();
+        
+        
+        /**
+         * Items
+         */
+        Q.stage(1).insert(sun1);
+        Q.stage(1).insert(sun2);
+        Q.stage(1).insert(sun3);
+        Q.stage(1).insert(sun4);
+        Q.stage(1).insert(sun5);
+        
     });
 });
