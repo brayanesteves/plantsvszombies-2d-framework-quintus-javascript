@@ -35,13 +35,31 @@ window.addEventListener("load", function () {
         init: function(p) {
             this._super(p, {
                 asset:"zombie1.png",
-                type:Q.SPRITE_ZOMBIE,
+                 type:Q.SPRITE_ZOMBIE,
+                /**
+                 * Collision
+                 */
+                collisionMask: Q.SPRITE_BULLET | Q.SPRITE_PLANT,
                   vx: -30
             });
             /**
              * Add component
              */
             this.add("2s");
+        },
+        /**
+         * Function
+         * 0) dt = Delta Time, last time execute 'step'
+         */
+        step: function(dt) {
+            if (this.p.x <= 240) {
+                this.destroy();
+                console.log("The zombies eat you brain!");
+                /**
+                 * Restart game
+                 */
+                Q.stageScene("level");
+            }
         }
     });
 
@@ -75,13 +93,15 @@ window.addEventListener("load", function () {
             y: 600
         });
 
+        console.log(sprite4.p);
+
         /**
          * Insert Sprite
          */
-        stage.inser(sprite1);
-        stage.inser(sprite2);
-        stage.inser(sprite3);
-        stage.inser(sprite4);
+        stage.insert(sprite1);
+        stage.insert(sprite2);
+        stage.insert(sprite3);
+        stage.insert(sprite4);
     });
 
     /**
