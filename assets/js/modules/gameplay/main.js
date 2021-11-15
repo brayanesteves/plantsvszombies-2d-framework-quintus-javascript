@@ -34,6 +34,13 @@ Quintus.ZombiesGameplay = function(Q) {
 
             if(this.levelTime >= this.p.levelData.duration) {
                 console.log("LEVEL COMPLETED!");
+                if(this.p.levelData.nextLevel) {
+                    Q.stageScene("level", { levelData:Q.assets[this.p.levelData.nextLevel] });
+                } else {
+                    console.log("YOU HAVE WON THE GAME!!");
+                    Q.stageScene("level", { levelData: Q.assets["level1.json"] });
+                    console.log("YOU ARE AGAIN LEVEL 1!!");
+                }
             }
 
             /**
@@ -77,7 +84,11 @@ Quintus.ZombiesGameplay = function(Q) {
                         /**
                          * Insert plant new
                          */
-                        this.stage.insert(new Q.Plant(Q._extend({x: 240 + 60 + col * 120, y: 60 + row * 120}, Q.state.get('currentPlant'))));
+                        var newPlant = new Q.Plant(Q._extend({x: 240 + 60 + col * 120, y: 60 + row * 120}, Q.state.get('currentPlant')));
+                        this.stage.insert(newPlant);
+                        this.plantsGrid[row][col] = newPlant;
+                        newPlant.p.gridRow = row;
+                        newPlant.p.gridCol = col;
                     }
                 }
             }

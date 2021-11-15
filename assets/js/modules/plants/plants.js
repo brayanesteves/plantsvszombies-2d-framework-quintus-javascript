@@ -139,6 +139,10 @@ Quintus.ZombiesPlants = function(Q) {
         takeDamage: function(damage) {
             this.p.energy -= damage / 50;
             //console.log(this.p.damage);
+        },
+        destroy: function() {
+            Q('Level').first().plantsGrid[this.p.gridRow][this.p.gridCol] = null;
+            this._super();
         }
     });
 
