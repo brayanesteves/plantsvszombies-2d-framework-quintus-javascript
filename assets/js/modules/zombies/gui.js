@@ -58,5 +58,19 @@ Quintus.ZombiesGUI = function (Q) {
         refreshStats: function () {
             this.totalSun.p.label = Q.state.get("sun") + "";
         }
-    });  
+   });
+    
+   /**
+    * Panel items
+    */
+    Q.UI.Button.extend("PlantButton", {
+        init: function(p) {
+            this._super(Q._defaults(p, {
+                scale: 0.6
+            }), function() {
+                this.p.opacity = 0.5;
+                Q.state.set("currentPlant", this.p.plant);
+            });
+        }
+    });
 };
