@@ -7,8 +7,8 @@ Quintus.ZombiesGUI = function (Q) {
         /**
          * Method constructor
          */
-        init: function() {
-            this._super({
+        init: function(p) {
+            this._super(Q._defaults(p, {
                 fill: '#E1DEB7',
                     x:120/2,
                     y:720/2,
@@ -17,7 +17,7 @@ Quintus.ZombiesGUI = function (Q) {
                 shadow:0,
                     w:120,
                     h:720,
-            });
+            }));
             /**
              * inserted: function() {
              *   var sun = new Q.Sprite({
@@ -28,10 +28,14 @@ Quintus.ZombiesGUI = function (Q) {
              *   this.stage.insert(sun);
              * }
              */
-            this.on("inserted");
+           this.on("inserted");
+           
+           /**
+            * Update sun stats when player sun changes
+            */
             var panel = this;
             Q.state.on("change.sun", function() {
-                panel.refreshStats();
+                Q('SidePanel', 0).items[0].refreshStats();
             });
         },
         inserted: function() {
@@ -50,10 +54,24 @@ Quintus.ZombiesGUI = function (Q) {
             this.totalSun = new Q.UI.Text({
                     x: 60,
                     y: 100,
-                label:" "
+                label:"100"
             });
-            this.stage.insert(this.totalSun);
+            /**
+             * Start showing the correct stats
+             */
+            //this.stage.insert(this.totalSun);
             this.refreshStats();
+
+            /**
+             * Insert plant type buttons
+             */
+            var x = 40, y = 180, planObject;
+            Q.each(this.p.plantTypes, function(element, index, list) {
+                planObject = Q.plantTypes[element];
+                this.stage.insert(new Q.PlantButton({ x: x, y: y, asset: plantObject.asset, plant: plantObject }));
+                this.stage.insert(new Q.UI.Text({ x: x + 40, y: y, label: plantObject.cost + '' }));
+                y += 90;
+            }, this);
         },
         refreshStats: function () {
             this.totalSun.p.label = Q.state.get("sun") + "";
@@ -67,9 +85,17 @@ Quintus.ZombiesGUI = function (Q) {
         init: function(p) {
             this._super(Q._defaults(p, {
                 scale: 0.6
-            }), function() {
+            }), function() {                
+                var plantButtons = Q("PlantButton").items;
+                Q.each(plantButtons, function(element, index, list) {
+                    element.trigger("unselected");
+                }, this);
                 this.p.opacity = 0.5;
                 Q.state.set("currentPlant", this.p.plant);
+            });
+
+            this.on("unselected", function() {
+                this.p.opacity = 1;
             });
         }
     });

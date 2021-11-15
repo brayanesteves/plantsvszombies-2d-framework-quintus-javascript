@@ -19,13 +19,13 @@ Quintus.ZombiesGameplay = function(Q) {
             this.numZombies  = this.p.levelData.zombies.length;
             this.levelTime   = 0; // Keep track of the level duration 
 
-
+            /**
+             * Save the position of each plant un a grid
+             */
+            this.plantsGrid = new Array(new Array(7), new Array(7), new Array(7), new Array(7), new Array(7), new Array(7));
 
             this.on('touch');
-        },
-        touch: function(touch) {
-            console.log('you touched the ground');
-        },
+        },        
         step: function (dt) {
             /**
              * Update level duration
@@ -55,7 +55,31 @@ Quintus.ZombiesGameplay = function(Q) {
             if(this.timeNextSun <= 0) {
                 this.timeNextSun = 2;
                 console.log("New sun");
+                /**
+                 * Create sun in the sun stage
+                 */
                 Q.stage(1).insert(new Q.Sun());
+            }
+        },
+        touch: function(touch) {
+            console.log('you touched the ground');
+            if(Q.stage.get('currentPlant')) {
+                /**
+                 * Get 'plantsGrid' coordinates
+                 */
+                var row = Math.floor((touch.y) / 120);
+                var col = Math.floor((touch.x - 240) / 120);
+
+                if(row >= 0 && row < this.plantsGrid.length && col >= 0 && col < this.plantsGrid[0].length) {
+                    if(!this.plantsGrid[row][col] && Q.state.get('sun') >= Q.state.get('currentPlant').cost) {
+                        Q.state.dec('sun', Q.state.get('currentPlant').cost);
+                        this.plantsGrid[row][col] = Q.state.get('currentPlant');
+                        /**
+                         * Insert plant new
+                         */
+                        this.stage.insert(new Q.Plant(Q._extend({x: 240 + 60 + col * 120, y: 60 + row * 120}, Q.state.get('currentPlant'))));
+                    }
+                }
             }
         },
         getTimeNextSun: function() {

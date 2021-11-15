@@ -61,7 +61,7 @@ window.addEventListener("load", function () {
         var plant1 = new Q.Plant(Q._extend({ x: 300, y: 600 }, Q.plantTypes['carnivorous']));     
         var plant2 = new Q.Plant(Q._extend({ x: 300, y: 100 }, Q.plantTypes['chilli']));   
 
-        var sidePanel = new Q.SidePanel();
+        var sidePanel = new Q.SidePanel({ plantTypes: stage.options['levelData']['availablePlants'] });
         stage.insert(sidePanel);
     });
 
