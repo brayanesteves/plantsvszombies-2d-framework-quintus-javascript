@@ -39,6 +39,7 @@ Quintus.ZombiesEnemies = function (Q) {
                  * Collision
                  */
                 collisionMask: Q.SPRITE_BULLET | Q.SPRITE_PLANT,
+                x:1080 + 60,
             });
             this.p.originalVx = this.p.vx;
             /**
@@ -75,7 +76,7 @@ Quintus.ZombiesEnemies = function (Q) {
                 /**
                  * Restart game
                  */
-                Q.stageScene("level");
+                Q.stageScene("level", { levelData: Q.('level').first().p.levelData });
             }
             if(this.p.energy <= 0) {
                 this.destroy();

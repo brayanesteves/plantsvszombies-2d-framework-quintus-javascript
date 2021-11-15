@@ -36,7 +36,8 @@ window.addEventListener("load", function () {
         /**
          * Scene
          */
-        var level = new Q.Level();        
+        var level = new Q.Level({ levelData: stage.options['levelData'] });
+        stage.insert(level);
 
         /**
          * Character
@@ -68,31 +69,35 @@ window.addEventListener("load", function () {
      * Load data
      */
     Q.load("background.png, sun.png, zombie1.png, zombie2.png, zombie3.png, chicken.png, carnivorousplant.png, corn.png, chilli.png, subflower.png", function() {
-        Q.state.reset({sun:120});
+        Q.state.reset({ sun: 120 });
+        /**
+         * Loas file 'JSON'
+         */
+        Q.stageScene('level', { levelData:Q.assets['level1.json'] });
         /**
          * Show image scenes
          */
-        Q.stageScene("level", 2);
+        //Q.stageScene("level", 2);
         Q.stageScene(  "sun", 1);
         
         /**
          * Item
          */
-        var sun1 = Q.Sun();
+        /*var sun1 = Q.Sun();
         var sun2 = Q.Sun();
         var sun3 = Q.Sun();
         var sun4 = Q.Sun();
-        var sun5 = Q.Sun();
+        var sun5 = Q.Sun();*/
         
         
         /**
          * Items
          */
-        Q.stage(1).insert(sun1);
+        /*Q.stage(1).insert(sun1);
         Q.stage(1).insert(sun2);
         Q.stage(1).insert(sun3);
         Q.stage(1).insert(sun4);
-        Q.stage(1).insert(sun5);
+        Q.stage(1).insert(sun5);*/
         
     });
 });

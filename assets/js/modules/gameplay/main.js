@@ -11,12 +11,46 @@ Quintus.ZombiesGameplay = function(Q) {
                 sunFrequency: { min:1, max:5 }
             });
             this.timeNextSun = this.getTimeNextSun();
+
+            /**
+             * Level data
+             */
+            this.zombieIndex = 0; // Current 'index' from zombies 'array'
+            this.numZombies  = this.p.levelData.zombies.length;
+            this.levelTime   = 0; // Keep track of the level duration 
+
+
+
             this.on('touch');
         },
         touch: function(touch) {
             console.log('you touched the ground');
         },
-        step: function(dt) {
+        step: function (dt) {
+            /**
+             * Update level duration
+             */
+            this.levelTime += dt;
+
+            if(this.levelTime >= this.p.levelData.duration) {
+                console.log("LEVEL COMPLETED!");
+            }
+
+            /**
+             * Create zombies at the defined times
+             */
+            if(this.zombieIndex < this.zombieIndex) {
+                var currentZombie = this.p.levelData.zombies[this.zombieIndex];
+                if(this.levelTime >= currentZombie.time) {
+                    var zombieData = Q.zombieTypes[currentZombie.type];
+                    var  newZombie = new Q.Zombie(Q._extend(zombieData, { y: currentZombie.now * 120 + 60 }));
+                    this.stage.insert(newZombie);
+                    this.zombieIndex++;
+                }
+            }
+            /**
+             * Update sun generation timing
+             */
             this.timeNextSun -= dt;
             if(this.timeNextSun <= 0) {
                 this.timeNextSun = 2;
