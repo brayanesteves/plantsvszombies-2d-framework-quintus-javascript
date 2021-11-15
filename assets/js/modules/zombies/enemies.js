@@ -76,7 +76,7 @@ Quintus.ZombiesEnemies = function (Q) {
                 /**
                  * Restart game
                  */
-                Q.stageScene("level", { levelData: Q.('level').first().p.levelData });
+                Q.stageScene("level", { levelData: Q('level').first().p.levelData });
             }
             if(this.p.energy <= 0) {
                 this.destroy();
