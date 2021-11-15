@@ -50,6 +50,7 @@ Quintus.ZombiesEnemies = function (Q) {
                 if (collision.obj.isA("Plant")) {
                     if(collision.obj.p.isExploding) {
                         this.p.energy -= collision.obj.p.damage;
+                        Q.audio.play('boom.mp3');
                         collision.obj.destroy();
                     } else {                        
                         collision.obj.takeDamage(this.p.damage);
@@ -60,6 +61,7 @@ Quintus.ZombiesEnemies = function (Q) {
                  */
                 else if(collision.obj.isA("Bullet")) {
                     this.p.energy -= collision.obj.p.damage;
+                    Q.audio.play('hit.mp3');
                     collision.obj.destroy();
                 }
                 this.p.vx = this.p.originalVx;

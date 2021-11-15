@@ -4,12 +4,17 @@ window.addEventListener("load", function () {
      * 0) 'Sprite' = Show image
      * 1) 'Scenes' = Show screen
      */
-    var Q = window.Q = Quintus({ development: true }).include('Sprites, Scenes, 2D, UI, Touch, ZombiesGUI, ZombiesEnemies, ZombiesGameplay').setup({
+    var Q = window.Q = Quintus({ development: true }).include('Sprites, Scenes, 2D, UI, Input, Touch, Audio').include('ZombiesGUI, ZombiesEnemies, ZombiesPlants ZombiesGameplay').setup({
              width:1080,
             height:720,
         scaleToFit:true
     });
 
+    /**
+     * Enable sound, this will find the best way to play
+     * audio according to the device
+     */
+    Q.enableSound();
     /**
      * Turn off gravity
      */
@@ -68,7 +73,7 @@ window.addEventListener("load", function () {
     /**
      * Load data
      */
-    Q.load("background.png, sun.png, zombie1.png, zombie2.png, zombie3.png, chicken.png, carnivorousplant.png, corn.png, chilli.png, subflower.png", function() {
+    Q.load("background.png, sun.png, zombie1.png, zombie2.png, zombie3.png, chicken.png, carnivorousplant.png, corn.png, chilli.png, subflower.png, bullet.png, level1.json, boom.mp3, collect.mp3, hit.mp3", function() {
         Q.state.reset({ sun: 120 });
         /**
          * Loas file 'JSON'

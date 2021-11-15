@@ -15,7 +15,6 @@ Quintus.ZombiesPlants = function(Q) {
             });
 
             this.add("2d");
-
             /**
              * Listening event "touch"
              */
@@ -25,6 +24,7 @@ Quintus.ZombiesPlants = function(Q) {
             console.log(touch);
             console.log("Touching sun");
             Q.state.inc("sun", 25);
+            Q.audio.play('collect.mp3');
             this.destroy();
         },
         step: function(dt) {
@@ -142,7 +142,10 @@ Quintus.ZombiesPlants = function(Q) {
         }
     });
 
-    Q.Sprite.extend({
+    /**
+     * Bullet
+     */
+    Q.Sprite.extend('Bullet', {
         init: function(p) {
             this._super(p, {
                  type:Q.SPRITE_BULLET,
