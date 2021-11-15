@@ -74,7 +74,8 @@ Quintus.ZombiesPlants = function(Q) {
                     asset:'subflower.png',
                      cost: 75,
                    energy:15, 
-                isShooter: true,        
+            isSunProducer: true,
+             sunFrequency:2,
        },
     };
 
@@ -87,8 +88,50 @@ Quintus.ZombiesPlants = function(Q) {
                 type:Q.SPRITE_PLANT,
             });
             this.add("2d");
+            /**
+             * Init timer for shooters
+             */
+            if(this.p.isShooter) {
+                this.p.timeToShoot = this.p.shootingFrequency;
+            }
+            /**
+             * Init timer for sun producers
+             */
+            if(this.p.isSunProducer) {
+                this.p.timeToSun = this.p.sunFrequency;
+            }
         },
         step: function(dt) {
+            /**
+             * Shooters plants
+             */
+             if(this.p.isShooter) {
+                this.p.timeToShoot -= dt;
+                if(this.p.timeToShoot <= 0) {
+                    this.p.timeToShoot = this.p.shootingFrequency;
+                    /**
+                     * Create new bullet
+                     */
+                    this.stage.insert(new Q.Bullet({
+                             x: this.p.x,
+                             y: this.p.y,
+                        damage:this.p.damage
+                    }));
+                }
+            }
+
+            if(this.p.isSunProducer) {
+                this.p.timeToSun -= dt;
+                if(this.p.timeToSun <= 0) {
+                    this.p.timeToSun = this.p.sunFrequency;
+                    Q.stage(1).insert(new Q.Sun({
+                             x:this.p.x - 50 + 100 * Math.random(),
+                             y:this.p.y,
+                            vy:0,
+                        finalY:this.p.y
+                    }));
+                }
+            }
             if(this.p.energy <= 0) {
                 this.destroy();
             }
@@ -107,13 +150,17 @@ Quintus.ZombiesPlants = function(Q) {
                    vx:300
             });
             this.add("2d");
+
+            // ============= <CHECK> ============= //
             /**
              * Init timer for shooters
              */
             if(this.p.isShooter) {
                 this.p.timeToShoot = this.p.shootingFrequency
             }
+            // ============= <.CHECK> ============= //
         },
+        // ============= <CHECK> ============= //
         step: function(dt) {
             /**
              * Shooters plants
@@ -139,5 +186,6 @@ Quintus.ZombiesPlants = function(Q) {
                 this.destroy();
             }
         }
+        // ============= <.CHECK> ============= //
     });
 };
